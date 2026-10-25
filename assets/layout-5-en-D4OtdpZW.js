@@ -1,0 +1,1 @@
+const t="/assets/layout-5-en-Mof0LXD0.txt";export{t as default};
