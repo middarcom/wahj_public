@@ -1,0 +1,11 @@
+import{j as n}from"./index-C5-MAJlT.js";/**
+ * @license lucide-react v0.543.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const s=[["path",{d:"M12 6v6h4",key:"135r8i"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]],l=n("clock-3",s);/**
+ * @license lucide-react v0.543.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const c=[["path",{d:"M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z",key:"q3az6g"}],["path",{d:"M14 8H8",key:"1l3xfs"}],["path",{d:"M16 12H8",key:"1fr5h0"}],["path",{d:"M13 16H8",key:"wsln4y"}]],d=n("receipt-text",c);function o(e=new Date){return`${e.getFullYear()}-${String(e.getMonth()+1).padStart(2,"0")}-${String(e.getDate()).padStart(2,"0")}`}function f(e){if(Array.isArray(e))return e;if(Array.isArray(e==null?void 0:e.data))return e.data;if(Array.isArray(e==null?void 0:e.rows))return e.rows;if(Array.isArray(e==null?void 0:e.items))return e.items;throw new Error("استجابة البيانات غير متوقعة. يرجى المحاولة مرة أخرى.")}const u={draft:["مسودة","neutral"],Pending:["بانتظار التأكيد","amber"],pending:["بانتظار التأكيد","amber"],slot_held:["حجز مؤقت","amber"],pending_approval:["بانتظار الموافقة","amber"],pending_deposit:["بانتظار العربون","amber"],Booked:["محجوز","rose"],confirmed:["مؤكد","rose"],Confirmed:["مؤكد","rose"],checked_in:["وصلت العميلة","blue"],waiting:["في الانتظار","blue"],in_service:["جارٍ تنفيذ الخدمة","blue"],service_completed:["انتهت الخدمة","green"],ready_for_checkout:["بانتظار الدفع","amber"],completed:["مكتمل","green"],Completed:["مكتمل","green"],Attended:["حضرت","green"],cancelled:["ملغي","neutral"],Cancelled:["ملغي","neutral"],Canceld:["ملغي","neutral"],no_show:["لم تحضر","neutral"],Missed:["لم تحضر","neutral"],expired:["منتهي","neutral"],declined:["مرفوض","neutral"],rescheduled:["أعيدت جدولته","neutral"]};function g(e){const t=e.WorkflowStatusCode||e.Status||"Pending",[r,i]=u[t]||[t,"neutral"];return{code:t,label:r,tone:i}}function m(e){return typeof e=="string"?e:typeof(e==null?void 0:e.detail)=="string"?e.detail:(e==null?void 0:e.message)||"تعذر تحميل البيانات. تحقق من الاتصال وحاول مجددًا."}export{l as C,d as R,g as a,m as e,o as l,f as r};
