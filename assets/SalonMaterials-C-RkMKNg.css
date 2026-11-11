@@ -1,0 +1,1 @@
+.wahj-material-line{display:grid;grid-template-columns:minmax(0,1fr) 120px auto;gap:10px;align-items:center}.wahj-material-line>*{min-width:0}@media (max-width:650px){.wahj-material-line{grid-template-columns:minmax(0,1fr) auto}.wahj-material-line>.MuiAutocomplete-root{grid-column:1/-1}}

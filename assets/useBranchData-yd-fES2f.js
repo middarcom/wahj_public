@@ -1,0 +1,1 @@
+import{b0 as o}from"./index-o2Ib8Zza.js";const u=()=>{const{selectedBranch:a,branches:n,changeBranch:r,isLoading:s,refreshBranches:h}=o();return{selectedBranch:a,branches:n,changeBranch:r,refreshBranches:h,isLoading:s,branchId:(a==null?void 0:a.BranchID)||null,Name:(a==null?void 0:a.Name)||null}},t=u;export{t as u};
