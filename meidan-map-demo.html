@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>مختبر الخريطة التجريبية | الميدان</title>
+    <style>
+        :root{font-family:system-ui,Tahoma,sans-serif;color:#173653;background:#f1f6f8;color-scheme:light}
+        *{box-sizing:border-box} body{margin:0} main{max-width:1250px;margin:auto;padding:24px}
+        header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+        h1{font-size:1.45rem;margin:0 0 6px} p{margin:0;color:#526a7c;font-size:.87rem;line-height:1.8}
+        .badge{background:#dff4f4;color:#006d73;font-weight:700;border-radius:999px;padding:7px 13px;font-size:.8rem}
+        .card{background:white;border:1px solid #cfe0e7;border-radius:16px;padding:14px;box-shadow:0 5px 20px #17365308}
+        .toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:12px;justify-content:space-between}
+        .group{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+        button,select{font:inherit;color:#173653;background:#fff;border:1px solid #bfd3db;border-radius:9px;padding:8px 12px;min-height:42px;cursor:pointer}
+        button:hover,select:hover{border-color:#007d83} button:focus-visible,select:focus-visible{outline:3px solid #0b9da5;outline-offset:2px}
+        button:disabled{opacity:.45;cursor:not-allowed} .primary{background:#007d83;color:white;border-color:#007d83;font-weight:700}
+        .zoom-value{display:inline-grid;place-items:center;min-width:80px;font-weight:700;font-variant-numeric:tabular-nums}
+        .visual{position:relative;overflow:hidden;border:1px solid #c7dce3;border-radius:12px;background:var(--land);min-height:320px;--land:#edf0e7;--park:#c9e5c9;--water:#a5d7e8;--building:#e1dfd4;--road:#fff;--label:#173653;--pin:#007d83;--halo:#fff}
+        .visual[data-theme="pastel"]{--land:#f8ecd9;--park:#d0e5bd;--water:#b1d8e8;--building:#e6cfc5;--road:#fff9ee;--label:#503d4b;--pin:#a54c74;--halo:#fff9ee}
+        .visual[data-theme="dark"]{--land:#1f3042;--park:#315849;--water:#244d70;--building:#3a4d60;--road:#607387;--label:#e9f4f8;--pin:#36b9b9;--halo:#182f43}
+        svg{display:block;width:100%;height:clamp(330px,56vh,640px);background:var(--land)}
+        .land{fill:var(--land)} .park{fill:var(--park)} .water{fill:var(--water)} .building{fill:var(--building)} .road{stroke:var(--road);fill:none;stroke-linecap:round;stroke-linejoin:round}
+        .pin{fill:var(--pin);stroke:var(--halo);stroke-width:3}.pin-icon{fill:#fff;font-size:17px;font-weight:700;text-anchor:middle;dominant-baseline:central}.place{fill:var(--label);font-weight:700;font-size:16px;text-anchor:middle;paint-order:stroke;stroke:var(--land);stroke-width:4px;stroke-linejoin:round}
+        .note{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px;background:#edf7f8;border-radius:10px;font-size:.8rem;color:#245667;line-height:1.65}
+        .card:fullscreen,.card.is-expanded{border:0;border-radius:0;width:100%;height:100%;padding:16px;display:flex;flex-direction:column;background:white}
+        .card.is-expanded{position:fixed;inset:0;z-index:10}.card:fullscreen .visual,.card.is-expanded .visual{flex:1;min-height:0}.card:fullscreen svg,.card.is-expanded svg{height:100%}
+        @media(max-width:600px){main{padding:12px}.card{padding:9px}h1{font-size:1.15rem}.toolbar{align-items:stretch}.group{width:100%}.toolbar button{flex:1}svg{height:400px}}
+    </style>
+</head>
+<body>
+<main>
+    <header><div><h1>مختبر الخريطة التجريبية</h1><p>استكشف تصميمًا مستقلًا لمدينة خيالية، دون اتصال بأي بيانات جغرافية أو بيانات تشغيل.</p></div><span class="badge">بيئة عرض افتراضية فقط</span></header>
+    <section class="card" id="demo-card" aria-label="الخريطة التجريبية">
+        <div class="toolbar">
+            <div class="group" role="group" aria-label="مستوى التكبير">
+                <button id="zoom-in" type="button" aria-label="تكبير">＋</button><output class="zoom-value" id="zoom-value" aria-live="polite">100%</output><button id="zoom-out" type="button" aria-label="تصغير">−</button>
+                <button type="button" id="reset">إعادة العرض</button>
+            </div>
+            <div class="group"><label for="theme">نمط الخريطة</label><select id="theme"><option value="light">نهاري</option><option value="pastel">ألوان هادئة</option><option value="dark">ليلي</option></select><button class="primary" id="fullscreen" type="button" aria-pressed="false">ملء الشاشة</button></div>
+        </div>
+        <div class="visual" id="visual" data-theme="light">
+            <svg id="map" viewBox="0 0 1000 600" role="img" aria-label="رسم تخطيطي خيالي لحديقة ومكتبة ومقهى ومعرض فني">
+                <rect class="land" width="1000" height="600"/>
+                <path class="water" d="M-20 460 Q180 365 380 500 T1020 350 V620 H-20Z"/>
+                <rect class="park" x="68" y="65" width="265" height="235" rx="32"/><rect class="park" x="720" y="250" width="215" height="140" rx="28"/>
+                <g class="building"><rect x="415" y="60" width="114" height="85" rx="10"/><rect x="560" y="60" width="118" height="85" rx="10"/><rect x="730" y="70" width="185" height="110" rx="12"/><rect x="410" y="220" width="120" height="125" rx="9"/><rect x="570" y="240" width="100" height="105" rx="10"/><rect x="100" y="350" width="165" height="85" rx="10"/><rect x="340" y="390" width="130" height="64" rx="9"/></g>
+                <g class="road" stroke-width="25"><path d="M0 185 H1000"/><path d="M365 0 V380 Q365 420 420 420 H1000"/><path d="M705 0 V420"/><path d="M0 325 H365"/></g>
+                <g class="road" stroke-width="10"><path d="M20 45 H340"/><path d="M545 0 V180"/><path d="M545 185 V400"/><path d="M810 185 V250"/><path d="M50 327 V435"/></g>
+                <g transform="translate(202 170)"><circle class="pin" r="25"/><text class="pin-icon" x="0" y="0">✿</text><text class="place" y="46">حديقة الخيال</text></g>
+                <g transform="translate(477 104)"><circle class="pin" r="25"/><text class="pin-icon" x="0" y="0">▤</text><text class="place" y="46">مكتبة الورق</text></g>
+                <g transform="translate(823 125)"><circle class="pin" r="25"/><text class="pin-icon" x="0" y="0">◆</text><text class="place" y="46">معرض الألوان</text></g>
+                <g transform="translate(620 290)"><circle class="pin" r="25"/><text class="pin-icon" x="0" y="0">☕</text><text class="place" y="46">مقهى الورد</text></g>
+            </svg>
+        </div>
+        <div class="note" role="note"><strong>ملاحظة:</strong><span>هذه الخريطة رسم توضيحي محلي. الأسماء والأشكال خيالية، ولا توجد إحداثيات حقيقية أو اتصال بقاعدة البيانات.</span></div>
+    </section>
+</main>
+<script type="module">
+    import { boundedZoom, zoomViewBox } from './meidan-demo-map.mjs';
+    const byId=id=>document.getElementById(id);
+    const card=byId('demo-card'), map=byId('map'), visual=byId('visual'), full=byId('fullscreen');
+    let zoom=100;
+    function renderZoom() {
+        map.setAttribute('viewBox',zoomViewBox(zoom));
+        byId('zoom-value').value=zoom+'%';
+        byId('zoom-in').disabled=zoom>=200;
+        byId('zoom-out').disabled=zoom<=50;
+    }
+    byId('zoom-in').addEventListener('click',()=>{zoom=boundedZoom(zoom+25);renderZoom();});
+    byId('zoom-out').addEventListener('click',()=>{zoom=boundedZoom(zoom-25);renderZoom();});
+    byId('reset').addEventListener('click',()=>{zoom=100;renderZoom();});
+    byId('theme').addEventListener('change',event=>{visual.dataset.theme=event.target.value;});
+    const expanded=()=>document.fullscreenElement===card||card.classList.contains('is-expanded');
+    function updateFull(){full.setAttribute('aria-pressed',String(expanded()));full.textContent=expanded()?'الخروج من ملء الشاشة':'ملء الشاشة';}
+    full.addEventListener('click',async()=>{
+        if(document.fullscreenElement===card) await document.exitFullscreen();
+        else if(card.classList.contains('is-expanded')) card.classList.remove('is-expanded');
+        else if(card.requestFullscreen){try{await card.requestFullscreen();}catch{card.classList.add('is-expanded');}}
+        else card.classList.add('is-expanded');
+        updateFull();
+    });
+    document.addEventListener('fullscreenchange',updateFull);
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&card.classList.contains('is-expanded')){card.classList.remove('is-expanded');updateFull();full.focus();}});
+    renderZoom();
+</script>
+</body>
+</html>
